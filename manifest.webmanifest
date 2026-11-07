@@ -1,0 +1,17 @@
+{
+  "name": "Ev Menüsü",
+  "short_name": "Ev Menüsü",
+  "description": "Evde hazırlanacak yemekler için menü ve malzeme listesi",
+  "lang": "tr",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#12141A",
+  "theme_color": "#FF7A59",
+  "icons": [
+    {"src": "icon-192.png", "sizes": "192x192", "type": "image/png"},
+    {"src": "icon-512.png", "sizes": "512x512", "type": "image/png"},
+    {"src": "icon-maskable-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable"}
+  ]
+}
