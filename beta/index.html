@@ -421,18 +421,20 @@ function rastgele(katlar,u,haric){
   const y=h[Math.floor(Math.random()*h.length)];u.add(y.id);return y.id;
 }
 function kahvaltiIcecek(){const h=YEMEK.filter(y=>y.kat==="icecek"&&(y.ad==="Türk çayı"||y.ad==="Ihlamur"));return h.length?h[Math.floor(Math.random()*h.length)].id:null}
+const SAAT={kahvalti:11,ogle:15,aksam:21};
+function gecti(g,o){if(g<bugun)return true;if(g>bugun)return false;return new Date().getHours()>=SAAT[o]}
 function gunuDoldur(g,u){
   const s=gunS(g);let n=0;
-  if(!s.kahvalti.length){[rastgele(["kahvalti"],u),kahvaltiIcecek()].forEach(id=>{if(id){s.kahvalti.push(id);n++}})}
-  if(!s.ogle.length){[rastgele(YAN,u),rastgele(OGLEANA,u)].forEach(id=>{if(id){s.ogle.push(id);n++}})}
-  if(!s.aksam.length){[rastgele(["corba"],u),rastgele(ANA,u),rastgele(["salata","aperatif"],u)].forEach(id=>{if(id){s.aksam.push(id);n++}})}
+  if(!s.kahvalti.length&&!gecti(g,"kahvalti")){[rastgele(["kahvalti"],u),kahvaltiIcecek()].forEach(id=>{if(id){s.kahvalti.push(id);n++}})}
+  if(!s.ogle.length&&!gecti(g,"ogle")){[rastgele(YAN,u),rastgele(OGLEANA,u)].forEach(id=>{if(id){s.ogle.push(id);n++}})}
+  if(!s.aksam.length&&!gecti(g,"aksam")){[rastgele(["corba"],u),rastgele(ANA,u),rastgele(["salata","aperatif"],u)].forEach(id=>{if(id){s.aksam.push(id);n++}})}
   return n;
 }
 $("#secBtn").onclick=()=>{
   const T=$("#secTab"),son=ekle(pzt(D.gun),6);
   const kalan=haftaGunleri().filter(g=>g>=bugun);
   T.innerHTML=`<div class="tut"></div><h3>🎲 Benim için seç</h3>
-  <p class="not" style="margin-top:6px">Sadece <b>boş öğünleri</b> doldurur. "Bana uygun" yemeklerden seçer (yumurtasız, şekere uygun, ağır olmayan) ve aynı yemeği hafta içinde tekrar etmemeye çalışır.</p>
+  <p class="not" style="margin-top:6px">Sadece <b>boş öğünleri</b> doldurur; bugünün saati geçmiş öğünlerini atlar (kahvaltı 11:00, öğle 15:00, akşam 21:00 sonrası). "Bana uygun" yemeklerden seçer (yumurtasız, şekere uygun, ağır olmayan) ve aynı yemeği hafta içinde tekrar etmemeye çalışır.</p>
   <button class="secb" id="sGun"><span class="ik">📅</span><span><b>${gunAdi(D.gun)} doldur</b><small>${kisaTarih(D.gun)} · kahvaltı, öğle, akşam</small></span></button>
   <button class="secb" id="sHafta"><span class="ik">🗓️</span><span><b>Haftanın kalanını doldur</b><small>${kalan.length?`${kisaTarih(kalan[0])} – ${kisaTarih(son)} · ${kalan.length} gün`:"Bu haftada kalan gün yok"}</small></span></button>
   <p class="not">Beğenmediğin yemeği menü ekranında 🔄 ile değiştirebilirsin.</p>`;
